@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>rendom.html</title>
+    <link rel="stylesheet" href="./myApp/static/css/style.css">
+</head>
+<body>
+    <div class="wrap">
+        
+    </div>
+<script src="./myApp/scripts/angular.min.js"></script>
+<script>
+    function reques(adrs) { // 请求数据
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else {
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.open('get', adrs, true);
+        xhr.send(null);
+        xhr.onreadystatechange = function () {
+            if (xhr.readystate === 4 && xhr.status === 200) {
+                rendom(xhr.responseText);
+            } else {
+                rendom(JSON.parse(xhr.responseText));
+            }
+        }
+    }
+    function rendom(data) {
+        let str = '';
+        for (var i in data) {
+            for (var j in data[i]) {
+                str += `<ul><li><img src="${data[i][j].img}" alt=""></li><li>${data[i][j].title}</li></ul>`;
+            }
+        }
+        document.querySelector('.wrap').append(str);
+    }
+    reques('http://localhost:8070/list');
+</script>
+</body>
+</html>
